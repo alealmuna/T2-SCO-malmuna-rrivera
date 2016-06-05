@@ -1,11 +1,24 @@
 import java.io.*;
 import java.net.*;
 import java.net.InetAddress;
+import java.util.Scanner;
 
 
 class Client {
     final static String cryptoKey = "SCOalmuna-rivera";
 
+    public static void checkMsg(String msg, String h){
+        String mac = HMAC.hmacDigest(msg, cryptoKey, "HmacMD5");
+		System.out.println("Calculated authentication code: " + mac);
+		System.out.println("Received authentication code: " + h);
+        if(mac.equals(h)){
+		    System.out.println("Message received safely.");
+        } else{
+		    System.out.println("Message was NOT authenticated succesfully.");
+		    System.out.println("Client is shutting down.");
+            System.exit(-1);
+        }
+    }
     public static void main(String args[]) {
 
          Socket sock=null;
@@ -28,23 +41,16 @@ class Client {
 
             sock= new Socket(ip, Server.PORT); ps= new 
             PrintStream(sock.getOutputStream());
-            String initMsg = "Init message from client";
-			System.out.println("Sending message...");
-			ps.println(initMsg);
 
     		BufferedReader is = new BufferedReader(new 
                     InputStreamReader(sock.getInputStream()));
 
-            String mac = HMAC.hmacDigest(initMsg, cryptoKey, "HmacMD5");
-			System.out.println("Calculated authentication code: " + mac);
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter message to send: ");
+            String msg = scanner.next();
+			ps.println(msg);
             String recv_mac = is.readLine();
-			System.out.println("Received authentication code: " + recv_mac);
-            if(mac.equals(recv_mac)){
-			    System.out.println("Message received safely.");
-            } else{
-			    System.out.println("Message was NOT authenticated succesfully.");
-            }
-
+            checkMsg(msg, recv_mac);
           }catch(SocketException e){ System.out.println("SocketException " + e); 
           }catch(IOException e){ System.out.println("IOException " + e);
 

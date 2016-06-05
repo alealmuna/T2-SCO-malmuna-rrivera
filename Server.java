@@ -3,6 +3,7 @@ import java.net.*;
 import java.io.*;
 
 public class Server {
+    final static String cryptoKey = "SCOalmuna-rivera";
 
     public static final int PORT = 9025;
 
@@ -19,16 +20,15 @@ public class Server {
 			    System.out.println("Server listening for connection..."); 
                 sock = sersock.accept();
 			    System.out.println("Received connection from " + sock.getInetAddress() + " on port " + sock.getPort()); 
-			    //DataInputStream is = null;
-			    //DataOutputStream os = null;
 
                 BufferedReader is = new BufferedReader(
                         new InputStreamReader(sock.getInputStream()));
 
-                System.out.println(is.readLine());
+                String msg = is.readLine();
+                String mac = HMAC.hmacDigest(msg, cryptoKey, "HmacMD5");
 
                 PrintStream ios = new PrintStream(sock.getOutputStream());
-                ios.println("Init message from server");
+                ios.println(mac);
                 ios.close();
 
                 sock.close();

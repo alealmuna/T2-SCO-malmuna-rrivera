@@ -39,14 +39,14 @@ Paquetes:
 
 \section{Diseño de la solución}
 Se implementa una aplicación Cliente-Servidor basada en sockets TCP. Esta permite enviar un mensaje de forma
-segura comparando los MAC calculados en ambos nodos de la conección.
+segura comparando los MAC calculados en ambos nodos de la conexión.
 \newline
 \\
 Para el Servidor se crea un socket que queda escuchando en el puerto indicado.
 \begin{verbatim}
  17.  sersock = new ServerSocket(PORT);
 \end{verbatim}
-Al recibir una petición, se abre un socket para atender la conección.  
+Al recibir una petición, se abre un socket para atender la conexión.  
 \begin{verbatim}
  21. sock = sersock.accept();
 \end{verbatim}
@@ -56,7 +56,7 @@ Luego se recibe el mensaje.
  25.        new InputStreamReader(sock.getInputStream()));
  27. String msg = is.readLine();
 \end{verbatim}
-Se calcula el MAC del mensaje y reenvia al cliente
+Se calcula el MAC del mensaje y reenvía al cliente
 \begin{verbatim}
  28. String mac = HMAC.hmacDigest(msg, cryptoKey, "HmacMD5"); 
  30. PrintStream ios = new PrintStream(sock.getOutputStream());
@@ -87,7 +87,7 @@ y lo compara con un MAC dado, en este caso el del servidor.
 \newpage
 \section{Conclusiones}
 El uso de HMAC permite una comunicación segura, que dependerá del tamaño de salida del hash, y en la calidad
-y tamaño de la llave. También de la potencia criptográfica de la función de hash eleguida.
+y tamaño de la llave. También de la potencia criptográfica de la función de hash elegida.
 
 
 \section{Referencias}

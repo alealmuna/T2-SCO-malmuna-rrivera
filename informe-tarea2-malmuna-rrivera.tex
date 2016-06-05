@@ -23,7 +23,7 @@ uso de técnicas criptográficas.
 \section{Especificaciones de software}
 Versión Java: 
 \begin{itemize}
- \item $1.7.0_101$
+ \item 1.7.01
  \item OpenJDK Runtime Environment (IcedTea 2.6.6)
  \item OpenJDK 64-Bit Server VM
 \end{itemize}
@@ -67,7 +67,7 @@ El cliente se conecta a la IP y puerto indicados.
 \begin{verbatim}
  41. sock= new Socket(ip, Server.PORT);
 \end{verbatim}
-Se envía el mensaje dado por el usuario.
+Se envía el mensaje dado por el usuario, utilizando Scanner de java.util.
 \begin{verbatim}
  48. String msg = scanner.next(); 
  49. ps.println(msg); 
@@ -87,7 +87,8 @@ y lo compara con un MAC dado, en este caso el del servidor.
 \newpage
 \section{Conclusiones}
 El uso de HMAC permite una comunicación segura, que dependerá del tamaño de salida del hash, y en la calidad
-y tamaño de la llave. También de la potencia criptográfica de la función de hash eleguida. 
+y tamaño de la llave. También de la potencia criptográfica de la función de hash eleguida.
+
 
 \section{Referencias}
 

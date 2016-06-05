@@ -11,11 +11,20 @@ class Client {
          Socket sock=null;
          DataInputStream dis=null;
          PrintStream ps=null;
+         String hostname = "localhost";
+
+         if(args.length == 2){
+		    hostname = args[1];
+         } else if((args.length != 0)){
+             System.out.println("Wrong number of arguments");
+             System.out.println("Usage: java –jar client.jar [-host <hostname>]");
+             System.exit(-1);
+         }
 
          try {
  
-			System.out.println("Connecting...");
-			InetAddress ip =InetAddress.getByName("localhost");
+			System.out.println("Connecting to " + hostname + " on port " + Server.PORT);
+			InetAddress ip =InetAddress.getByName(hostname);
 
             sock= new Socket(ip, Server.PORT); ps= new 
             PrintStream(sock.getOutputStream());

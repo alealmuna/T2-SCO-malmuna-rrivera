@@ -15,9 +15,9 @@ public class Server {
 
         try {
             sersock = new ServerSocket(PORT);
+			System.out.println("Server listening for connection..."); 
 
             while(true){
-			    System.out.println("Server listening for connection..."); 
                 sock = sersock.accept();
 			    System.out.println("Received connection from " + sock.getInetAddress() + " on port " + sock.getPort()); 
 

@@ -25,13 +25,12 @@ class Client {
          DataInputStream dis=null;
          PrintStream ps=null;
          String hostname = "localhost";
+         Scanner scanner = new Scanner(System.in);
+         System.out.print("TCP server address (press Enter to use localhost): ");
+         String readHost = scanner.nextLine();
 
-         if(args.length == 2){
-		    hostname = args[1];
-         } else if((args.length != 0)){
-             System.out.println("Wrong number of arguments");
-             System.out.println("Usage: java –jar client.jar [-host <hostname>]");
-             System.exit(-1);
+         if (!readHost.isEmpty()) {
+             hostname = readHost;
          }
 
          try {
@@ -45,7 +44,6 @@ class Client {
     		BufferedReader is = new BufferedReader(new 
                     InputStreamReader(sock.getInputStream()));
 
-            Scanner scanner = new Scanner(System.in);
             System.out.print("Enter message to send: ");
             String msg = scanner.next();
 			ps.println(msg);

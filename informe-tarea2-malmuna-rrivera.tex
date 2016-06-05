@@ -1,0 +1,95 @@
+\documentclass[letter, 10pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[top=3cm,bottom=3cm,left=3.5cm,right=3.5cm,footskip=1.5cm,headheight=1.5cm,headsep=.5cm,textheight=3cm]{geometry}
+
+
+\begin{document}
+\title{Módulo Redes avanzadas \\ \begin{Large}Programación Distribuida y Criptografía\end{Large}}
+\author{Manuel Almuna (ale@amucan.com) - Renato Rivera (renato@amucan.com)}
+\date{\today}
+\maketitle
+
+\begin{abstract}
+Informe sobre la experiencia de programación distribuida y 	
+los problemas de implementación asociados al desarrollo de un servicio en red y	el	
+uso de técnicas criptográficas.
+
+\end{abstract}
+\section{Especificaciones de software}
+Versión Java: 
+\begin{itemize}
+ \item $1.7.0_101$
+ \item OpenJDK Runtime Environment (IcedTea 2.6.6)
+ \item OpenJDK 64-Bit Server VM
+\end{itemize}
+Paquetes:
+\begin{itemize}
+ \item java.net
+ \item java.io
+ \item java.util
+ \item javax.crypto
+ \item java.security
+\end{itemize}
+
+
+\section{Diseño de la solución}
+Se implementa una aplicación Cliente-Servidor basada en sockets TCP. Esta permite enviar un mensaje de forma
+segura comparando los MAC calculados en ambos nodos de la conección.
+\newline
+\\
+Para el Servidor se crea un socket que queda escuchando en el puerto indicado.
+\begin{verbatim}
+ 17.  sersock = new ServerSocket(PORT);
+\end{verbatim}
+Al recibir una petición, se abre un socket para atender la conección.  
+\begin{verbatim}
+ 21. sock = sersock.accept();
+\end{verbatim}
+Luego se recibe el mensaje.
+\begin{verbatim}
+ 24. BufferedReader is = new BufferedReader(
+ 25.        new InputStreamReader(sock.getInputStream()));
+ 27. String msg = is.readLine();
+\end{verbatim}
+Se calcula el MAC del mensaje y reenvia al cliente
+\begin{verbatim}
+ 28. String mac = HMAC.hmacDigest(msg, cryptoKey, "HmacMD5"); 
+ 30. PrintStream ios = new PrintStream(sock.getOutputStream());
+ 31. ios.println(mac);
+\end{verbatim}
+
+El cliente se conecta a la IP y puerto indicados.
+\begin{verbatim}
+ 41. sock= new Socket(ip, Server.PORT);
+\end{verbatim}
+Se envía el mensaje dado por el usuario.
+\begin{verbatim}
+ 48. String msg = scanner.next(); 
+ 49. ps.println(msg); 
+\end{verbatim}
+Se recibe la MAC calculada por el servidor.
+\begin{verbatim}
+ 50. String recv_mac = is.readLine();  
+\end{verbatim}
+Se comparan las MAC a través de la función checkMsg, la cual calcula la MAC de un mensaje
+y lo compara con un MAC dado, en este caso el del servidor.
+\begin{verbatim}
+ 11. String mac = HMAC.hmacDigest(msg, cryptoKey, "HmacMD5");
+ 14. if(mac.equals(h)){                                 
+ 15.    System.out.println("Message received safely.");
+\end{verbatim}
+
+\newpage
+\section{Conclusiones}
+El uso de HMAC permite una comunicación segura, que dependerá del tamaño de salida del hash, y en la calidad
+y tamaño de la llave. También de la potencia criptográfica de la función de hash eleguida. 
+
+\section{Referencias}
+
+
+\end{document} 

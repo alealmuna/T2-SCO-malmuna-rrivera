@@ -112,8 +112,16 @@ de la clase HMAC que se encarga del procesamiento.
 \newpage
 \section{Conclusiones}
 El uso de HMAC permite una comunicación segura, que dependerá del tamaño de salida del hash, y en la calidad
-y tamaño de la llave. También de la potencia criptográfica de la función de hash elegida.
+y tamaño de la llave. También de la potencia criptográfica de la función de hash elegida. En éste caso HMAC-MD5 es más que
+suficiente para asegurar integridad de los datos.
 
+Respecto a la implementación cliente-servidor, al tener múltiples clientes conectados al mismo tiempo el servidor sólo
+podrá atender una petición a la vez. Una solución escalable sería trabajar con hebras, permitiendo al servidor manejar 
+peticiones simultaneamente de muchos clientes conectados de forma concurrente.
+
+Otro aspecto es el formato de los mensajes. Un formato como JSON permite mejorar el paso de los datos, dando estructura al mensaje. 
+Al ser un formato masificado permite parsear con fácilidad los mensajes entre el cliente/servidor y a la vez un filtro básico
+para los intrusos que no conocen el formato de los mensajes.
 
 \section{Referencias}
 \begin{itemize}

@@ -98,6 +98,17 @@ y lo compara con un MAC dado, en este caso el del servidor.
  15.    System.out.println("Message received safely.");
 \end{verbatim}
 
+\section{Problemas en implementación y soluciones propuestas}
+Los ejemplos de programación presentados fueron de principal ayuda al iniciar el desarrollo de la tarea
+y resolvieron las dudas más importantes al iniciar el desarrolo. Se facilitó la creación de un servidor
+y clientes básicos junto a las excepciones que podrían gatillarse. \\
+La dirección IP asociada al servidor debía poder ser ingresada al arrancar el cliente, con este proposito utilizamos
+la clase Scanner del paquete java.util. Para ingresar el mensaje que se desea enviar al servidor, también nos fue
+de utilidad la misma clase.\\
+Tanto cliente como servidor necesitan calcular el código de autenticación dado un mensaje, la función de códificación
+y una contraseña compartida. Para no repetir el cálculo del MAC en ambos archivos, aprovechamos el método hmacDigest
+de la clase HMAC que se encarga del procesamiento.
+
 \newpage
 \section{Conclusiones}
 El uso de HMAC permite una comunicación segura, que dependerá del tamaño de salida del hash, y en la calidad
